@@ -69,8 +69,7 @@ def get_neighbor_nodes(record):
     Return:
         unique_node_list <list>: a list that contains unique nodes encountered during the scanning process.
     '''
-    node_list = record['from'].tolist()
-    node_list.extend(record['to'].tolist())
+    node_list = [*record['from'].tolist(), *record['to'].tolist()]
     unique_node_list = list(set(node_list))
     return unique_node_list
 
@@ -92,10 +91,10 @@ args = parser.parse_args()
 # # Jupyter Notebook
 # class parser:
 #     def __init__(self):
-#         self.node_count = 5
+#         self.node_count = 500
 #         self.initial_node = '0x0000000000000000000000000000000000000000'
 #         self.verbose = 1
-#         self.api_key = ''
+#         self.api_key = 'UCJ24GP9ICCR28QNPDNCXZ27VHWIG442F6'
 # args = parser()
 
 
@@ -132,15 +131,16 @@ client = Client_v1(api_key=args.api_key, verbose=args.verbose)
 try:
     for count in range(args.node_count):
         try:
-            i = random.randint(0, len(node_list)-1)
+            i = random.randint(0, len(node_list)-1)                         # Get a node from node_list using index i
             print(f'Progress: {count+1}/{args.node_count} ', end='')
-            record = client.get_token_transactions_by_address(node_list[i])
-            explored_nodes[node_list[i]] = record
-            neighbor_nodes = get_neighbor_nodes(record) # Retrieve new nodes found in the record
+            record = client.get_token_transactions_by_address(node_list[i]) # Process the node
+            neighbor_nodes = get_neighbor_nodes(record)                     # Retrieve its neighbor nodes
+            explored_nodes[node_list[i]] = record                           # Add node i to explored_nodes
+            node_list.remove(node_list[i])                                  # Remove node i from the node_list (because it has been explored)
             for node in neighbor_nodes:
                 if node not in explored_nodes.keys():
-                    node_list.append(node)              # Appending new nodes to node_list
-            node_list.remove(node_list[i])              # Remove the node that has been explored
+                    node_list.append(node)                                  # Append neighbor nodes to node_list, given that they are not in explored_dict
+            node_list = list(set(node_list))                                # Select unique neighbor nodes
         except Exception as e:
             logging.error(e)
 except:
