@@ -94,7 +94,7 @@ args = parser.parse_args()
 #         self.node_count = 500
 #         self.initial_node = '0x0000000000000000000000000000000000000000'
 #         self.verbose = 1
-#         self.api_key = 'UCJ24GP9ICCR28QNPDNCXZ27VHWIG442F6'
+#         self.api_key = API_KEY
 # args = parser()
 
 
@@ -129,7 +129,8 @@ except:
 client = Client_v1(api_key=args.api_key, verbose=args.verbose)
 
 try:
-    for count in range(args.node_count):
+    count = 0
+    while count < args.node_count:
         try:
             i = random.randint(0, len(node_list)-1)                         # Get a node from node_list using index i
             print(f'Progress: {count+1}/{args.node_count} ', end='')
@@ -141,6 +142,7 @@ try:
                 if node not in explored_nodes.keys():
                     node_list.append(node)                                  # Append neighbor nodes to node_list, given that they are not in explored_dict
             node_list = list(set(node_list))                                # Select unique neighbor nodes
+            count += 1                                                      # Increment to count only when it is a success retrieval of node information
         except Exception as e:
             logging.error(e)
 except:
