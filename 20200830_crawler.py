@@ -13,12 +13,13 @@ class Client_v1(es.Client):
     '''
     Extra functions based on etherscan.Client module.
     '''
-    def __init__(self, api_key=None, verbose=1):
+    def __init__(self, api_key='', verbose=1):
         super(Client_v1, self).__init__(api_key)
+        self.api_key = api_key
         self.last_execution = 0
         self.verbose = verbose
         self.MAX_TRIAL_COUNT = 10
-        self.interval = 0.5
+        self.interval = 0.5 if self.api_key == '' else 0
         pass
 
     def get_token_transactions_by_address(self, address):
@@ -31,7 +32,7 @@ class Client_v1(es.Client):
         '''
         exceed_limit_error = False
         trial_count = 0
-        url = f'https://api.etherscan.io/api?module=account&action=tokentx&address={address}&startblock=0&endblock=999999999&sort=asc'
+        url = f'https://api.etherscan.io/api?module=account&action=tokentx&address={address}&startblock=0&endblock=999999999&sort=asc&apikey={self.api_key}'
         if self.verbose >= 1:
             logging.info(f'Retrieving node with address {node_list[i]} from URL: {url}')
             print(f'Retrieving node with address {node_list[i]} from URL: {url}')
@@ -84,17 +85,17 @@ parser.add_argument('--initial_node', default='0x0000000000000000000000000000000
                    help='The initial node to start crawling.')
 parser.add_argument('--verbose', default=1, type=int, required=False,
                    help='0: No debug information will be displayed on the console; 1: Some information; 2: All information.')
-parser.add_argument('--api_key', default=None, required=False,
+parser.add_argument('--api_key', default='', type=str, required=False,
                    help='The key for retrieving data via the API.')
 args = parser.parse_args()
 
 # # Jupyter Notebook
 # class parser:
 #     def __init__(self):
-#         self.node_count = 2
+#         self.node_count = 5
 #         self.initial_node = '0x0000000000000000000000000000000000000000'
 #         self.verbose = 1
-#         self.api_key = None
+#         self.api_key = ''
 # args = parser()
 
 
@@ -103,7 +104,7 @@ if not os.path.exists(root):
     os.makedirs(os.path.abspath(root))
 logging.basicConfig(filename=root+'20200830.log',
                              level=logging.INFO,
-                             format='%(asctime)-15s %(levelname)-8s %(message)s)')
+                             format='%(asctime)-15s %(levelname)-8s %(message)s')
 try:
     node_list = []
     with open(root+'node_list.txt', 'r') as f:
@@ -128,30 +129,33 @@ except:
 
 client = Client_v1(api_key=args.api_key, verbose=args.verbose)
 
+try:
+    for count in range(args.node_count):
+        try:
+            i = random.randint(0, len(node_list)-1)
+            print(f'Progress: {count+1}/{args.node_count} ', end='')
+            record = client.get_token_transactions_by_address(node_list[i])
+            explored_nodes[node_list[i]] = record
+            neighbor_nodes = get_neighbor_nodes(record) # Retrieve new nodes found in the record
+            for node in neighbor_nodes:
+                if node not in explored_nodes.keys():
+                    node_list.append(node)              # Appending new nodes to node_list
+            node_list.remove(node_list[i])              # Remove the node that has been explored
+        except Exception as e:
+            logging.error(e)
+except:
+    pass
+finally:
+    # Writing upated node list to file
+    with open(root+'node_list.txt', 'w') as f:
+        for node in node_list:
+            f.writelines(node + '\n')
+        print('Saved nodes to "node_list.txt".')
 
-for i in range(args.node_count):
-    try:
-        # Maybe later I could change this to random selection for the node picking process
-        record = client.get_token_transactions_by_address(node_list[random.randint(0, len(node_list)-1)])
-        explored_nodes[node_list[i]] = record
-        neighbor_nodes = get_neighbor_nodes(record) # Retrieve new nodes found in the record
-        for node in neighbor_nodes:
-            if node not in explored_nodes.keys():
-                node_list.append(node)              # Appending new nodes to node_list
-        node_list.remove(node_list[i])              # Remove the node that has been explored
-    except Exception as e:
-        logging.error(e)
-
-# Writing upated node list to file
-with open(root+'node_list.txt', 'w') as f:
-    for node in node_list:
-        f.writelines(node + '\n')
-    print('Saved nodes to "node_list.txt".')
-
-with open(root+'explored_nodes_keys.txt', 'w') as f:
-    for node in explored_nodes.keys():
-        f.writelines(node + '\n')
-    print('Saved exlpored node addresses to "explored_nodes_keys.txt".')
-with open(root+f'explored_nodes_dict_{time.strftime("%Y%m%d%H%M")}.pkl', 'wb') as f:
-    pkl.dump(explored_nodes, f)
-print(f'Saved explored node dictionary to "{root}explored_nodes_dict_{time.strftime("%Y%m%d%H%M")}.pkl".')
+    with open(root+'explored_nodes_keys.txt', 'w') as f:
+        for node in explored_nodes.keys():
+            f.writelines(node + '\n')
+        print('Saved exlpored node addresses to "explored_nodes_keys.txt".')
+    with open(root+f'explored_nodes_dict_{time.strftime("%Y%m%d%H%M")}.pkl', 'wb') as f:
+        pkl.dump(explored_nodes, f)
+    print(f'Saved explored node dictionary to "{root}explored_nodes_dict_{time.strftime("%Y%m%d%H%M")}.pkl".')
