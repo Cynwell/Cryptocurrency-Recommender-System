@@ -17,9 +17,6 @@ explored_nodes = {}
 for filename in dictionary_files[:1]:
     with open(root+filename, 'rb') as f:
         tmp_dict = pkl.load(f)
-        pop_list = [k for k, v in tmp_dict.items() if type(v) == str and v == 'Explored']
-        for node in pop_list:
-            tmp_dict.pop(node) # delete nodes that have been marked as "Explored"
         explored_nodes = {**explored_nodes, **tmp_dict} # merge dict
 
 # Create a table containing all transansaction data and do basic statistics
