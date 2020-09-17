@@ -125,31 +125,32 @@ class Client_v2:
         return transaction_record
 
 
-root = 'transaction_data/token/'
+root = 'transaction_data/token2/'
 if not os.path.exists(root):
+    print(f'Created {root}.')
     os.makedirs(os.path.abspath(root))
 logging.basicConfig(filename=root+'20200916.log',
                              level=logging.INFO,
                              format='%(asctime)-15s %(levelname)-8s %(message)s')
 
 if os.path.exists(root+'node_list.txt'):
-    answer = input(f'{root}node_list.txt exists in the directory! Are you sure to overwrite node_list.txt (Y/N)?')
+    answer = input(f'{root}node_list.txt exists in the directory! Are you sure to overwrite node_list.txt (Y/N)? ')
     if answer not in ['Y', 'y']:
         raise NameError('Please backup node_list.txt and other files first before running the crawler!')
 
 # Put top 20 token addresses here
-token_address_list = ['0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2', # Maker (MKD)
-                      '0x80fB784B7eD66730e8b1DBd9820aFD29931aab03', # Aave (LEND)
-                      '0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f', # Synthetix Network Token (SNX)
-                      '0x6b175474e89094c44da98b954eedeac495271d0f', # Dai (DAI)
-                      '0xc00e94cb662c3520282e6f5717214004a7f26888'] # Compound (COMP)
+token_address_list = ['0xdd974d5c2e2928dea5f71b9825b8b646686bd200', # Kyber Network (KNC)
+                      '0x514910771af9ca656af840dff83e8264ecf986ca', # ChainLink (LINK)
+                      '0xe41d2489571d322189246dafa5ebde1f4699f498', # 0x (ZRX)
+                      '0xd46ba6d942050d489dbd938a2c909a5d5039a161', # Ampleforth (AMPL)
+                      '0x221657776846890989a759ba2973e427dff5c9bb'] # Augur v2 (REP)
 
 transaction_data_dict = dict()
 client = Client_v2(verbose=1)
 node_list = []
 try:
     for token_address in token_address_list:
-        transaction_data = client.get_transactions_by_token_address(token_address)
+        transaction_data = client.get_transactions_by_token(token_address)
         transaction_data_dict[token_address] = transaction_data
         node_list.extend(transaction_data['from_address'].tolist())
         node_list.extend(transaction_data['to_address'].tolist())
