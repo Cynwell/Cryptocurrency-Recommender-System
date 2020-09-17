@@ -6,6 +6,12 @@ def getAddressType(x):
 
 
 def aggregate():
+
+    '''
+    Process raw transaction data into the format useful for collasborative filtering
+    Stored to cf_data.pkl
+    '''
+
     root = 'transaction_data/'
 
     # Read all .pkl dictionary files under the defined root directory
@@ -33,7 +39,7 @@ def aggregate():
 
     print(len(output))
 
-    f = open('CF_data', 'wb')
+    f = open('cf_data', 'wb')
     pkl.dump(output, f)
 
 aggregate()
