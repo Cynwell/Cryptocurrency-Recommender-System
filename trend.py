@@ -4,9 +4,11 @@ from datetime import datetime, timedelta
 from time import sleep
 import pickle as pkl
 from os import path
+import talib
+from talib import abstract
+
 
 cg = CoinGeckoAPI()
-
 
 
 def get_data(address, start, end):
@@ -63,9 +65,49 @@ def update_token(address, start_date=datetime(2019, 1, 1)):
         pkl.dump((df, now), f)                 # Save tuple (DataFrame, Update_Time) to pkl
 
 
-def create_features(address):
+def build_ta_features(df, freq='1D', ta_list=None):
+    '''
+    To build OHLCV (Open High Low Close Volume) features, and advanced features provided by TA-Lib.
+    Input:
+        df <pd.DataFrame>: A DataFrame object that contains columns ['timestamp', 'prices', 'market_caps', 'total_volumes']. It should be retreived from CoinGecko.
+        freq <str>: A string that specifies the frequency of sampling. For different frequency notations, check https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases.
+        ta_list <list>: A list of techical analysis features to be built. For the whole list of feature names, check TA-Lib website: https://mrjbq7.github.io/ta-lib/funcs.html.
+                             If None, it will build all features available in TA-Lib. Otherwise, it will only build features as specified in the feature_list.
+    Return:
+        df <pd.DataFrame>: A DataFrame object where each column represents a unique feature (with name), and each row represents a sampled timestamp (with time).
+    '''
+    df = df.copy()
+    df['date'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df = df.set_index('date')
+
+    # Building Open High Low Close Volume features for different frequencies
+    ohlc_df = df.resample(freq)['prices'].agg(['first', 'max', 'min', 'last'])
+    v_df = df.resample(freq)['total_volumes'].sum()
+    df = pd.merge(ohlc_df, v_df, on='date')
+    df.columns = ['open', 'high', 'low', 'close', 'volume']
+
+    # Building advanced features using TA-Lib
+    # For MAVP, it allows moving average with variable periods specified, we'll just skip this function.
+    if ta_list is None:
+        ta_list = talib.get_functions()
+    for i, x in enumerate(ta_list):
+        try:
+            output = eval('abstract.'+x+'(df)')
+            output.name = x.lower() if type(output) == pd.core.series.Series else None
+            df = pd.merge(df, pd.DataFrame(output), left_on = df.index, right_on = output.index)
+            df = df.set_index('key_0')
+#             print(f'Strategy {i}: OK ({x})')
+        except:
+#             print(f'Strategy {i}: ERROR ({x})')
+            pass
+    df.index.names = ['date']
+    return df
+
+
+def build_features(address, freq='1D', ta_list=None):
 
     '''
+    To build features for the target address.
     Input(address <str>) -> DataFrame
     Read the craweled Dataframe of the specified address and add feature columns to it
     '''
@@ -73,10 +115,12 @@ def create_features(address):
     file_dir = 'price_data/' + address + '.pkl'
     with open(file_dir, 'rb') as f:
         df, update_time = pkl.load(f)
-
-    # Features
-    
-
+    ta_features = build_ta_features(df, freq=freq, ta_list=ta_list)
+    return ta_features
 
 
-create_features(address='0x514910771af9ca656af840dff83e8264ecf986ca')
+address = '0x514910771af9ca656af840dff83e8264ecf986ca'
+update_token(address)
+df = build_features(address, freq='1D')
+print(df)
+# Add save option here if you want
