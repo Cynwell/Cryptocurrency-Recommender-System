@@ -10,6 +10,8 @@ from crawler import Client_v3
 parser = argparse.ArgumentParser()
 
 # Required parameters
+parser.add_argument('--path', default='transaction_data/token1/', type=str, required=True,
+                    help='The path to the destination folder.')
 parser.add_argument('--node_count', default=5, type=int, required=False,
                     help='Number of nodes to be retrieved in a single time run.')
 parser.add_argument('--verbose', default=1, type=int, required=False,
@@ -27,7 +29,7 @@ args = parser.parse_args()
 # args = parser()
 
 
-root = 'lab/transaction_data/token2/'
+root = args.root
 if not os.path.exists(root):
     os.makedirs(os.path.abspath(root))
 logging.basicConfig(filename=root+'20200919_new.log',
@@ -39,12 +41,10 @@ try:
         for line in f:
             node_list.append(line.splitlines()[0])
     print('Retrieved node file from disk.')
+    if args.node_count > len(node_list):
+        args.node_count = len(node_list)
 except FileNotFoundError:
-    print('Node file not found.')
-finally:
-    if len(node_list) == 0:
-        print('Initialized the node list with the default node address:', args.initial_node)
-        node_list.append(args.initial_node)
+    raise Error('node_list.txt was not found! Please regenerate the file by using token_crawler.py!')
 
 try:
     explored_nodes_list = []
