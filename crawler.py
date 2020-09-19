@@ -57,7 +57,7 @@ class Client_v3:
         record = pd.json_normalize(data['result'])
 
         # Append a new column called isUser
-        url = f'https://api.etherscan.io/api?module=proxy&action=eth_getCode&address={address}&tag=latest&apikey=UCJ24GP9ICCR28QNPDNCXZ27VHWIG442F6'
+        url = f'https://api.etherscan.io/api?module=proxy&action=eth_getCode&address={address}&tag=latest&apikey={self.api_key}'
         user = pd.read_json(url, orient='index').transpose()
         user_type = True if user['result'][0] == '0x' else False
         logging.info(f'Node address {address} is a user: {user_type}, retrieved from {url}')
