@@ -10,7 +10,7 @@ from crawler import Client_v3
 parser = argparse.ArgumentParser()
 
 # Required parameters
-parser.add_argument('--path', default='transaction_data/token1/', type=str, required=True,
+parser.add_argument('--root', default='transaction_data/token1/', type=str, required=True,
                     help='The path to the destination folder.')
 parser.add_argument('--node_count', default=5, type=int, required=False,
                     help='Number of nodes to be retrieved in a single time run.')
@@ -41,8 +41,7 @@ try:
         for line in f:
             node_list.append(line.splitlines()[0])
     print('Retrieved node file from disk.')
-    if args.node_count > len(node_list):
-        args.node_count = len(node_list)
+    node_count = min(args.node_count, len(node_list))
 except FileNotFoundError:
     raise Error('node_list.txt was not found! Please regenerate the file by using token_crawler.py!')
 
@@ -59,10 +58,10 @@ client = Client_v3(api_key=args.api_key, verbose=args.verbose)
 explored_nodes_dict = dict()
 try:
     count = 0
-    while count < args.node_count:
+    while count < node_count:
         try:
             i = random.randint(0, len(node_list)-1)                         # Get a node from unexplored node_list using index i
-            print(f'Progress: {count+1}/{args.node_count} ', end='')
+            print(f'Progress: {count+1}/{node_count} ', end='')
             record = client.get_transaction_by_address(node_list[i])        # Process the node
             explored_nodes_dict[node_list[i]] = record                      # Add node i to explored_nodes_dict
             explored_nodes_list.append(node_list[i])                        # Add node i to explored_nodes_list
