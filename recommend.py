@@ -1,7 +1,7 @@
 import pickle as pk
 import os
 
-from crawler import Client_v1
+from crawler import Client_v3
 
 class Scorer:
 
@@ -25,9 +25,17 @@ class Scorer:
                 s += self.user.loc[i] * other.loc[i]
         return s
 
-WALLET_NO = 10   # No of similar wallet address to be considered
-MIN_SCORE = 0.01 # Minimum score for valid recommendation
-REF_NO = 3       # No of token to recommend
+
+def same(x, y):
+    for i in x.index:
+        if i not in y.index:
+            return False
+    return True
+
+
+WALLET_NO = 1000 # No of similar wallet address to be considered
+MIN_SCORE = 0.1  # Minimum score for valid recommendation
+REF_NO = 5       # No of token to recommend
 
 def recommend(user_address):
 
@@ -40,11 +48,11 @@ def recommend(user_address):
     # Obtain user data
     f = open('CF_data', 'rb')
     cf_data = pk.load(f)
-    client = Client_v1(api_key='UCJ24GP9ICCR28QNPDNCXZ27VHWIG442F6', verbose=0)
+    client = Client_v3(api_key='UCJ24GP9ICCR28QNPDNCXZ27VHWIG442F6', verbose=0)
 
     # Process to correct format
     user_address = user_address.lower()
-    trasactions = client.get_token_transactions_by_address(user_address)
+    trasactions = client.get_transaction_by_address(user_address)
     bought = trasactions[trasactions['to'] == user_address]
     if len(bought) == 0:
         print('Error')
@@ -54,7 +62,7 @@ def recommend(user_address):
     score = Scorer(profile)
     cf_data = sorted(cf_data, key=score, reverse=True) # Find the most similar address to user
     while True:
-        if score(cf_data[0]) == 1.0:
+        if same(cf_data[0], profile):
             cf_data.pop(0)
         elif score(cf_data[0]) < MIN_SCORE:
             print('Insufficient data')
@@ -72,17 +80,11 @@ def recommend(user_address):
                 occurence[token] = count
     tokens = list(occurence.keys())
     tokens = sorted(tokens, key=occurence.get, reverse=True)
+    for i in range(REF_NO):
+        print(occurence[tokens[i]])
     return tokens[:REF_NO]
 
 
-r = recommend('0xfef30F53FB6C34B9034e0A898921806C84B4Ae1f')
-print(r)
-
-
-
-
-
-
-    
-
-
+if __name__ == '__main__':
+    r = recommend('0xB02f1329d6a6AcEF07a763258f8509c2847A0a3E')
+    print(r)

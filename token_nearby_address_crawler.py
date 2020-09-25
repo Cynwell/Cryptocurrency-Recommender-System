@@ -20,14 +20,6 @@ parser.add_argument('--api_key', default='', type=str, required=False,
                    help='The key for retrieving data via the API.')
 args = parser.parse_args()
 
-# # Jupyter Notebook
-# class parser:
-#     def __init__(self):
-#         self.node_count = 2
-#         self.verbose = 1
-#         self.api_key = API_KEY
-# args = parser()
-
 
 root = args.root
 if not os.path.exists(root):
@@ -43,7 +35,7 @@ try:
     print('Retrieved node file from disk.')
     node_count = min(args.node_count, len(node_list))
 except FileNotFoundError:
-    raise Error('node_list.txt was not found! Please regenerate the file by using token_crawler.py!')
+    raise FileNotFoundError('node_list.txt was not found! Please regenerate the file by using token_crawler.py!')
 
 try:
     explored_nodes_list = []
