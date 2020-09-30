@@ -78,7 +78,7 @@ def recommend(user_address):
                 occurence[token] += count
             else:
                 occurence[token] = count
-    tokens = list(occurence.keys())
+    tokens = occurence.keys()
     tokens = sorted(tokens, key=occurence.get, reverse=True)
     for i in range(REF_NO):
         print(occurence[tokens[i]])

@@ -1,42 +1,118 @@
+from random import choice, randint, seed
+from copy import copy
+import warnings
+warnings.filterwarnings("ignore")
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import LinearSVC
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import cross_val_score
 
 from price_crawler import update_token, build_features
 
 
-TA_FEATURES = ['ROC', 'MOM', 'EMA']  # TA features to be included
-ROLLING = 3                          # How many previous periods to be considered
-DELTA = '6H'                         # Duration of each period
-TARGET = {'12H-price': 2, '1D-price': 4, '3D-price': 12} # {name of label: number of period into the future}
-MODEL = DecisionTreeClassifier       # Model used for prediction
+# {label name: number of period into the future}
+TARGET = {'1D-price': 1, '3D-price': 3, '7D-price': 7}
 
-# Create the list of feature names
-FEATURES = ['open', 'close', 'high', 'low', 'volume'] + [s.lower() for s in TA_FEATURES]
-FEATURES += [c + '-r' + str(i + 1) for i in range(ROLLING) for c in FEATURES]
+# Number of trials
+TRIAL = 50
 
-def train(address):
+# TA features to be used
+TA_FEATURES = ['ROC', 'MOM', 'EMA']
+
+# File to record results
+LOG_FILE = open('price_data/tuning.csv', 'a')
+
+ROLL_RANGE = [1, 2, 3, 4, 5, 6, 7, 8]           # How many previous periods to be considered
+DELTA_RANGE = ['1D', '12H', '6H', '3H']         # Possible duration of each period
+MODEL_RANGE = [DecisionTreeClassifier, LogisticRegression, MLPClassifier]     # Possible Models
+NORMALIZE = ['MinMax', 'Normal', 'None']        # Possible data normalization method
+
+CRITERION_RANGE = ['gini', 'entropy']   # Possible way to construct a decision tree
+DEPTH_RANGE = [3, 4, 5, 6, 7, 8]        # Possible tree depth when using decision trees
+HIDDEN_RANGE = [8, 16, 24, 32, 48]      # Possible hidden size when using MLP
+
+def generate_config():
+    seed()
+    config = {}
+    i = randint(0, 3)
+
+    config['delta'] = DELTA_RANGE[i]
+    config['roll'] = choice(ROLL_RANGE)
+    config['model'] = choice(MODEL_RANGE)
+    config['norm'] = choice(NORMALIZE)
+    config['criterion'] = 'NA'
+    config['depth'] = -1
+    config['hidden'] = -1
+    
+    target = copy(TARGET)
+    for k in target.keys():
+        target[k] *= 2 ** i
+
+    if config['model'] == DecisionTreeClassifier:
+        config['depth'] = choice(DEPTH_RANGE)
+        config['criterion'] = choice(CRITERION_RANGE)
+    if config['model'] == MLPClassifier:
+        config['hidden'] = choice(HIDDEN_RANGE)
+
+    features = ['open', 'close', 'high', 'low', 'volume'] + [s.lower() for s in TA_FEATURES]
+    features += [c + '-r' + str(i + 1) for i in range(config['roll']) for c in features]
+
+    return config, target, features
+
+
+def log_config(f, cfg, target, result):
+    hyper_paramters = ['model', 'delta', 'roll', 'norm', 'hidden', 'depth', 'criterion']
+    row = [target] + [str(cfg[p]) for p in hyper_paramters] + result
+    line = ','.join(row) + '\n'
+    f.write(line)
+
+
+def train(address, cfg, features, target):
+
     '''
     Input(address <str>) -> list
     This function gives a list of trained model for each time horizon using the configuration above
     '''
+
     update_token(address)
-    df = build_features(address, freq=DELTA, ta_list=TA_FEATURES, ys=TARGET)
-    X = df[FEATURES]
-    X_train = X.iloc[:len(X) * 8 // 10, :]
-    X_test = X.iloc[len(X) * 8 // 10:, :]
-    models = []
-    for target in TARGET.keys():
-        y = df[target]
-        y_train = y.iloc[:len(y) * 8 // 10]
-        y_test = y.iloc[len(y) * 8 // 10:]
-        m = MODEL(max_depth=5).fit(X_train, y_train)
-        test_acc = m.score(X_test, y_test)
-        train_acc = m.score(X_train, y_train)
-        print(target, 'test accuracy:', test_acc)
-        print(target, 'train accuracy:', train_acc)
-        models.append(m)
-    return models
+    df = build_features(address, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
+    X = df[features]
+    model = cfg['model']
+    output_models = []
+
+    if cfg['norm'] == 'MinMax':
+        X = (X - X.min()) / (X.max() - X.min())
+    if cfg['norm'] == 'Normal':
+        X = (X - X.mean()) / X.std()
+    
+    for t in target.keys():
+        
+        if model == DecisionTreeClassifier:
+            depth = cfg['depth']
+            criterion = cfg['criterion']
+            m = model(max_depth=depth)
+        elif model == MLPClassifier:
+            hidden = cfg['hidden']
+            m = model(hidden_layer_sizes=(hidden, 2), max_iter=500, solver='sgd')
+        else:
+            m = model(max_iter=500, solver='sag')
+        
+        y = df[t]
+        scores = cross_val_score(m, X, y, cv=6)
+        result = [str(scores.mean()), str(scores.std())]
+        log_config(LOG_FILE, cfg, t, result)
+        output_models.append(m)
+    
+    return output_models
 
 if __name__ == '__main__':
-    ms = train('0x514910771af9ca656af840dff83e8264ecf986ca')
+    address = '0x514910771af9ca656af840dff83e8264ecf986ca'
+    for i in range(TRIAL):
+        cfg, target, features = generate_config()
+        train(address, cfg, features, target)
+        print(i + 1, 'trials complelted')
+    LOG_FILE.close()
+
+    
+

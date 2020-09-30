@@ -1,9 +1,11 @@
-from pycoingecko import CoinGeckoAPI
-import pandas as pd
+from copy import copy
 from datetime import datetime, timedelta
 from time import sleep
 import pickle as pkl
 from os import path
+
+from pycoingecko import CoinGeckoAPI
+import pandas as pd
 import talib
 from talib import abstract
 
@@ -100,7 +102,7 @@ def build_ta_features(df, freq='1D', ta_list=None):
     return df
 
 
-def build_features(address, freq='12H', ta_list=None, ys={'1D-price': 2, '3D-price': 6}, rolling=3):
+def build_features(address, freq='12H', ta_list=None, ys={'1D-price': 2, '3D-price': 6}, roll=3):
 
     '''
     To build features for the target address.
@@ -115,8 +117,9 @@ def build_features(address, freq='12H', ta_list=None, ys={'1D-price': 2, '3D-pri
     df = build_ta_features(df, freq=freq, ta_list=ta_list)
 
     # Add rolling features
-    for i in range(rolling):
-        for c in df.columns:
+    columns = copy(df.columns)
+    for i in range(roll):
+        for c in columns:
             df[c + '-r' + str(i + 1)] = df[c].shift(i + 1)
 
     # Add labels
