@@ -1,5 +1,6 @@
 from random import choice, randint, seed
 from copy import copy
+from os import path
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -15,13 +16,13 @@ from price_crawler import update_token, build_features
 TARGET = {'1D-price': 1, '3D-price': 3, '7D-price': 7}
 
 # Number of trials
-TRIAL = 500
+TRIAL = 10
 
 # TA features to be used
 TA_FEATURES = ['ROC', 'MOM', 'EMA']
 
 ROLL_RANGE = [1, 2, 3, 4, 5, 6, 7, 8]           # How many previous periods to be considered
-DELTA_RANGE = ['1D', '12H', '6H', '3H']         # Possible duration of each period
+DELTA_RANGE = ['24H', '12H', '6H', '3H']         # Possible duration of each period
 MODEL_RANGE = [DecisionTreeClassifier, LogisticRegression, MLPClassifier]     # Possible Models
 NORMALIZE = ['MinMax', 'Normal', 'None']        # Possible data normalization method
 
@@ -44,7 +45,10 @@ def generate_config():
     
     target = copy(TARGET)
     for k in target.keys():
-        target[k] *= 2 ** i
+        if config['delta'][-1] == 'H':
+            target[k] *= 24 // int(config['delta'][:-1])
+        else:
+            target[k] *= 1440 // int(config['delta'][:-3])
 
     if config['model'] == DecisionTreeClassifier:
         config['depth'] = choice(DEPTH_RANGE)
@@ -107,19 +111,11 @@ if __name__ == '__main__':
     address = '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2'
     update_token(address)
     file_name = address + '_tuning.csv'
-    log = open('price_data/' + file_name, 'a')
-    try:
-        for i in range(TRIAL):
-            cfg, target, features = generate_config()
-            train(address, cfg, features, target, log)
-            print(i + 1, 'trials completed')
-    except KeyboardInterrupt:
-        log.close()
-        
-    address = '0x514910771af9ca656af840dff83e8264ecf986ca'
-    update_token(address)
-    file_name = address + '_tuning.csv'
-    log = open('price_data/' + file_name, 'a')
+    if path.exists('price_data/' + file_name):
+        log = open('price_data/' + file_name, 'a')
+    else:
+        log = open('price_data/' + file_name, 'w')
+        log.write('TARGET, MODEL, DELTA, ROLL, NORM, HIDDEN, DEPTH, CRITERION, SCORE, STD\n')
     try:
         for i in range(TRIAL):
             cfg, target, features = generate_config()
