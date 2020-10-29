@@ -1,10 +1,14 @@
-Usage:
+Recommender Module: <br>
 
-crawler.py: A crawler library which is capable of crawling address and token transaction data.
-address_crawler.py: Calling the crawler module to crawl transaction data by address.
-token_crawler.py: Calling the crawler module to crawl transaction data by token. You'll need to manually change the folder name for your own needs.
-load_all_explored_nodes_dict.py: An utility script to test whether dictionaries has been stored in correct format.
+- crawler.py: A crawler library which is capable of crawling address and token transaction data
+- address_crawler.py: Calling the crawler module to crawl transaction data by address.
+- token_crawler.py: Calling the crawler module to crawl transaction data by token.
+- preprocess.py: Prepare address transaction data into the form needed for recommender
+- recommend.py: Main recommend function
 
-20200830_crawler.py:
-1. Open cmd
-2. run "python 20200830_crawler.py --node_count=3 --initial_node=0x0000000000000000000000000000000000000000 --verbose=1"
+Trend Prediction Module:
+
+- price_crawler: Use CoinGecko API to retrieve hourly price data for token
+- price_crawler_minute.py: Use archive minute data, same API as price crawler
+- trend.py: Hyper-parameter tuning script for hourly data
+- trend_minute.py Hyper-parameter tuning script for minute data
