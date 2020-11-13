@@ -54,6 +54,8 @@ class Client_v3:
             logging.warning(f'ADDRESS: {address}')
             logging.warning(f'RECORD: {record}')
         record = pd.json_normalize(data['result'])
+        record['value'] = record.apply(lambda x: int(x['value']) / 10 ** int(x['tokenDecimal']), axis=1)
+        record.drop('tokenDecimal', axis=1, inplace=True)
 
         # Append a new column called isUser
         url = f'https://api.etherscan.io/api?module=proxy&action=eth_getCode&address={address}&tag=latest&apikey={self.api_key}'
