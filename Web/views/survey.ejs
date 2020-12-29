@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>PIER</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link href="css/survey.css" rel="stylesheet">
+        <script>
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(";");
+                for(var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == " ") {
+                    c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            function preSubmit(){
+                let uid = getCookie("uid");
+                let address = getCookie("address");
+                document.getElementById("uid").value = uid;
+                document.getElementById("address").value = address;
+                document.getElementById("f1").style = "display:none";
+                document.getElementById("wait-img").style = "display:block";
+                document.getElementById("wait-msg").style = "display:block";
+            }
+        </script>
+    </head>
+    <body>
+        <div class="outer">
+        <div class="middle">
+        <div class="inner">
+            <img id="wait-img" src="img/loading.gif">
+            <p id="wait-msg" class="lead">Please Wait while we generate Recommendations for You . . .</p>
+            <form id="f1" action="result.ejs" method="POST">
+                <h2><%= message %></h2>
+                <div class="mb-3">
+                    <label class="form-label lead">How long would your Investment Last?</label>
+                    <select class="form-select" name="period" required>
+                        <option selected>Please Select</option>
+                        <option value="1">Less than a week</option>
+                        <option value="2">A few weeks</option>
+                        <option value="3">A few months</option>
+                        <option value="4">More than a year</option>
+                    </select>  
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="preSubmit()">Submit</button>
+                <input type="hidden" name="address" id="address">
+                <input type="hidden" name="id" id="uid">
+            </form>
+        </div>
+        </div>
+        </div> 
+    </body>
+</html>

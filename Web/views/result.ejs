@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>PIER</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link href="css/result.css" rel="stylesheet">
+        <script type="text/json" id="result">
+            <%= result %>
+        </script>
+        <script>
+            var result = document.getElementById('result').innerHTML;
+            var recommendation = JSON.parse(result.replaceAll('&#34;', '\"'));
+
+            function showTrend(code, day) {
+                document.getElementById(day).innerHTML = recommendation[code + '-' + day];
+                if (recommendation[code + '-' + day] == 'Up') {
+                    document.getElementById(day).style = 'color:green';
+                }
+                else {
+                    document.getElementById(day).style = 'color:red';
+                }
+            }
+
+            function render(code) {
+                document.getElementById('description').innerHTML = recommendation[code + '-description'];
+                showTrend(code, '1d');
+                showTrend(code, '3d');
+                showTrend(code, '7d');
+            }
+
+            function initialize() {
+                let codes = ['r1', 'r2', 'r3', 'r4', 'r5'];
+                let list = document.getElementById('rec-list');
+                for (let i = 0; i < 5; ++i) {
+                    let code = codes[i];
+                    if (code in recommendation) {
+                        let option = document.createElement('option');
+                        if (i == 0) option.setAttribute('selected', '');
+                        option.innerHTML = recommendation[code];
+                        list.appendChild(option);
+                    }
+                }
+                render('r1');
+            }
+        </script>
+    </head>
+    <body onload="initialize()">
+        <div class="outer">
+        <div class="middle">
+        <div class="inner">
+            <h2>Here are our Recommendations</h2>
+            <div class="mb-3">
+                <select id="rec-list" class="form-select form-select-lg chooseBox" multiple>
+                </select>
+                <span id="description">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                </span>
+                <span id="prediction">
+                    <div class="price">Predicted Trend</div>
+                    <div class="price">1 Day - <text id="1d"></text></div>
+                    <div class="price">3 Day - <text id="3d"></text></div>
+                    <div class="price">7 Day - <text id="7d"></text></div>
+                </span>
+            </div>
+        </div>
+        </div>
+        </div> 
+    </body>
+</html>

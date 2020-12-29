@@ -1,0 +1,72 @@
+.outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url("../img/background.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+  
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+    
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 960px;
+    height: 380px;
+    background-color: rgba(208, 208, 208, 0.8);
+    border-radius: 15px;
+}
+
+.chooseBox {
+    overflow: hidden;
+    font-size: xx-large;
+    position: relative;
+    top: 12px;
+    left: 16px;
+    width: 25%;
+    height: 290px;
+    display: inline;
+}
+
+#description {
+    vertical-align: top;
+    overflow: auto;
+    font-size: large;
+    position: relative;
+    top: 12px;
+    left: 20px;
+    display: inline-block;
+    width: 50%;
+}
+
+#prediction {
+    vertical-align: top;
+    position: relative;
+    top: 12px;
+    left: 20px;
+    display: inline-block;
+    width: 20%;
+    font-weight: 600;
+}
+
+h2 {
+    position: relative;
+    top: 8px;
+    left: 16px;
+}
+
+.price {
+    height: 60px;
+    text-align: left;
+    font-size: x-large;
+    vertical-align: top;
+}
