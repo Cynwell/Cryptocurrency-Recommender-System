@@ -11,23 +11,6 @@ from sklearn.model_selection import cross_val_score
 
 from price_crawler_minute import retrieve_data, build_features
 
-# {label name: number of period into the future}
-TARGET = {'1D-price': 1, '3D-price': 3, '7D-price': 7}
-
-# Number of trials
-TRIAL = 150
-
-# TA features to be used
-TA_FEATURES = ['ROC', 'MOM', 'EMA']
-
-ROLL_RANGE = [1, 3, 5, 7]                             # How many previous periods to be considered
-DELTA_RANGE = ['12H', '6H', '3H', '1H', '30min']      # Possible duration of each period
-MODEL_RANGE = [DecisionTreeClassifier, LogisticRegression, MLPClassifier]     # Possible Models
-NORMALIZE = ['MinMax', 'Normal', 'None']              # Possible data normalization method
-
-CRITERION_RANGE = ['gini', 'entropy']   # Possible way to construct a decision tree
-DEPTH_RANGE = [3, 4, 5, 6, 7, 8]        # Possible tree depth when using decision trees
-HIDDEN_RANGE = [8, 16, 24, 32, 48]      # Possible hidden size when using MLP
 
 def generate_config():
     seed()
@@ -42,11 +25,6 @@ def generate_config():
     config['hidden'] = -1
     
     target = copy(TARGET)
-    for k in target.keys():
-        if config['delta'][-1] == 'H':
-            target[k] *= 24 // int(config['delta'][:-1])
-        else:
-            target[k] *= 1440 // int(config['delta'][:-3])
 
     if config['model'] == DecisionTreeClassifier:
         config['depth'] = choice(DEPTH_RANGE)
@@ -75,8 +53,7 @@ def train(token, cfg, features, target, log):
     '''
 
     df = retrieve_data(token)
-    df = build_features(df, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
-    X = df[features]
+    X, y = build_features(df, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
     model = cfg['model']
     output_models = []
 
@@ -85,8 +62,8 @@ def train(token, cfg, features, target, log):
     if cfg['norm'] == 'Normal':
         X = (X - X.mean()) / X.std()
     
-    for t in target.keys():
-        
+    for label, t in y.iteritems():
+
         if model == DecisionTreeClassifier:
             depth = cfg['depth']
             criterion = cfg['criterion']
@@ -96,19 +73,36 @@ def train(token, cfg, features, target, log):
             m = model(hidden_layer_sizes=(hidden, 2), max_iter=500, solver='sgd')
         else:
             m = model(max_iter=500, solver='sag')
-        
-        y = df[t]
-        scores = cross_val_score(m, X, y, cv=6)
+
+        scores = cross_val_score(m, X, t, cv=6)
         result = [str(scores.mean()), str(scores.std())]
-        log_config(log, cfg, t, result)
+        log_config(log, cfg, label, result)
         output_models.append(m)
     
     return output_models
 
 
 if __name__ == '__main__':
+    # [<Prediction Interval>-<Feature Name>]
+    TARGET = ['1D-close', '3D-close', '7D-close']
 
-    token = 'leousd'
+    # Number of trials
+    TRIAL = 50
+
+    # TA features to be used
+    TA_FEATURES = ['ROC', 'MOM', 'EMA']
+
+    ROLL_RANGE = [1, 3, 5, 7]                             # How many previous periods to be considered
+    DELTA_RANGE = ['12H', '6H', '3H', '1H', '30min']      # Possible duration of each period
+    MODEL_RANGE = [DecisionTreeClassifier]     # Possible Models
+    NORMALIZE = ['MinMax', 'Normal', 'None']              # Possible data normalization method
+
+    CRITERION_RANGE = ['gini', 'entropy']   # Possible way to construct a decision tree
+    DEPTH_RANGE = [3, 4, 5, 6, 7, 8]        # Possible tree depth when using decision trees
+    HIDDEN_RANGE = [8, 16, 24, 32, 48]      # Possible hidden size when using MLP
+
+
+    token = 'leousd.csv'
     file_dir = 'price_data/' + token + '_tuning.csv'
     if path.exists(file_dir):
         log = open(file_dir, 'a')
@@ -120,4 +114,3 @@ if __name__ == '__main__':
         train(token, cfg, features, target, log)
         print(i + 1, 'trials completed')
     log.close()
-

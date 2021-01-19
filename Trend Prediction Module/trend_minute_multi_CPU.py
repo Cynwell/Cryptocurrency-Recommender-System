@@ -8,16 +8,16 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import cross_val_score
+from joblib import Parallel, delayed
 
-from price_crawler import update_token, build_features
+from price_crawler_minute import retrieve_data, build_features
 
 
 def generate_config():
     seed()
     config = {}
-    i = randint(0, 3)
 
-    config['delta'] = DELTA_RANGE[i]
+    config['delta'] = choice(DELTA_RANGE)
     config['roll'] = choice(ROLL_RANGE)
     config['model'] = choice(MODEL_RANGE)
     config['norm'] = choice(NORMALIZE)
@@ -46,14 +46,15 @@ def log_config(f, cfg, target, result):
     f.write(line)
 
 
-def train(address, cfg, features, target, log):
+def train(token, cfg, features, target, log):
 
     '''
     Input(address <str>, configuration <dict>, features <list>, target <dict>, log <file>) -> list
     This function gives a list of trained model for each time horizon using the configuration above
     '''
 
-    X, y = build_features(address, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
+    df = retrieve_data(token)
+    X, y = build_features(df, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
     model = cfg['model']
     output_models = []
 
@@ -82,6 +83,40 @@ def train(address, cfg, features, target, log):
     return output_models
 
 
+def generate_config_and_train(token, i):
+    cfg, target, features = generate_config()
+
+    df = retrieve_data(token)
+    X, y = build_features(df, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
+    model = cfg['model']
+    output_models = []
+
+    if cfg['norm'] == 'MinMax':
+        X = (X - X.min()) / (X.max() - X.min())
+    if cfg['norm'] == 'Normal':
+        X = (X - X.mean()) / X.std()
+    
+    for label, t in y.iteritems():
+
+        if model == DecisionTreeClassifier:
+            depth = cfg['depth']
+            criterion = cfg['criterion']
+            m = model(max_depth=depth, criterion=criterion)
+        elif model == MLPClassifier:
+            hidden = cfg['hidden']
+            m = model(hidden_layer_sizes=(hidden, 2), max_iter=500, solver='sgd')
+        else:
+            m = model(max_iter=500, solver='sag')
+
+        scores = cross_val_score(m, X, t, cv=6)
+        result = [str(scores.mean()), str(scores.std())]
+#         log_config(log, cfg, label, result)
+        output_models.append(m)
+        return result
+
+# #     return output_models
+    print(i + 1, 'trials completed')
+
 if __name__ == '__main__':
     # [<Prediction Interval>-<Feature Name>]
     TARGET = ['1D-close', '3D-close', '7D-close']
@@ -92,29 +127,28 @@ if __name__ == '__main__':
     # TA features to be used
     TA_FEATURES = ['ROC', 'MOM', 'EMA']
 
-    ROLL_RANGE = [1, 2, 3, 4, 5, 6, 7, 8]           # How many previous periods to be considered
-    DELTA_RANGE = ['24H', '12H', '6H', '3H']         # Possible duration of each period
-    MODEL_RANGE = [DecisionTreeClassifier, LogisticRegression, MLPClassifier]     # Possible Models
-    NORMALIZE = ['MinMax', 'Normal', 'None']        # Possible data normalization method
+    ROLL_RANGE = [1, 3, 5, 7]                             # How many previous periods to be considered
+    DELTA_RANGE = ['12H', '6H', '3H', '1H', '30min']      # Possible duration of each period
+    MODEL_RANGE = [DecisionTreeClassifier]     # Possible Models
+    NORMALIZE = ['MinMax', 'Normal', 'None']              # Possible data normalization method
 
     CRITERION_RANGE = ['gini', 'entropy']   # Possible way to construct a decision tree
     DEPTH_RANGE = [3, 4, 5, 6, 7, 8]        # Possible tree depth when using decision trees
     HIDDEN_RANGE = [8, 16, 24, 32, 48]      # Possible hidden size when using MLP
 
 
-    address = '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2'
-    update_token(address)
-    file_name = address + '_tuning.csv'
-    log = None
-    if path.exists('price_data/' + file_name):
-        log = open('price_data/' + file_name, 'a')
+    token = 'leousd.csv'
+    file_dir = 'price_data/' + token + '_tuning.csv'
+    if path.exists(file_dir):
+        log = open(file_dir, 'a')
     else:
-        log = open('price_data/' + file_name, 'w')
+        log = open(file_dir, 'w')
         log.write('TARGET, MODEL, DELTA, ROLL, NORM, HIDDEN, DEPTH, CRITERION, SCORE, STD\n')
-    try:
-        for i in range(TRIAL):
-            cfg, target, features = generate_config()
-            train(address, cfg, features, target, log)
-            print(i + 1, 'trials completed')
-    except KeyboardInterrupt:
-        log.close()
+#     for i in range(TRIAL):
+#         cfg, target, features = generate_config()
+#         train(token, cfg, features, target, log)
+#         print(i + 1, 'trials completed')
+    work_list = Parallel(n_jobs=4)(delayed(generate_config_and_train)(token, i) for i in range(TRIAL))
+    print('Finished')
+    print(work_list)
+    log.close()
