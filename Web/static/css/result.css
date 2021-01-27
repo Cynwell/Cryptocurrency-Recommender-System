@@ -21,32 +21,53 @@
     margin-left: auto;
     margin-right: auto;
     width: 960px;
-    height: 220px;
+    height: 380px;
     background-color: rgba(208, 208, 208, 0.8);
     border-radius: 15px;
 }
 
-#f1 {
+.chooseBox {
+    overflow: hidden;
+    font-size: xx-large;
     position: relative;
     top: 12px;
-    left: 18px;
-    width: 96%;
+    left: 16px;
+    width: 25%;
+    height: 290px;
+    display: inline;
 }
 
-#wait-img {
-    display: none;
-    margin-left: auto;
-    margin-right: auto;
+#description {
+    vertical-align: top;
+    overflow: auto;
+    font-size: large;
     position: relative;
-    width: 150px;
-    height: 150px;
-    top:5%;
+    top: 12px;
+    left: 28px;
+    display: inline-block;
+    width: 45%;
 }
 
-#wait-msg {
-    display: none;
-    text-align: center;
-    font-weight: bold;
+#prediction {
+    vertical-align: top;
     position: relative;
-    top:8%;
+    top: 12px;
+    left: 20px;
+    padding-left: 20px;
+    display: inline-block;
+    width: 20%;
+    font-weight: 600;
+}
+
+h2 {
+    position: relative;
+    top: 8px;
+    left: 16px;
+}
+
+.price {
+    height: 60px;
+    text-align: left;
+    font-size: x-large;
+    vertical-align: top;
 }

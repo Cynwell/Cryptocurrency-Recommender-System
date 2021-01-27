@@ -14,13 +14,12 @@
 .middle {
     display: table-cell;
     vertical-align: middle;
-    
 }
 
 .inner {
     margin-left: auto;
     margin-right: auto;
-    width: 1080px;
+    width: 960px;
     height: 220px;
     background-color: rgba(208, 208, 208, 0.8);
     border-radius: 15px;
@@ -31,4 +30,22 @@
     top: 12px;
     left: 18px;
     width: 96%;
+}
+
+#wait-img {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    top:5%;
+}
+
+#wait-msg {
+    display: none;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    top:8%;
 }

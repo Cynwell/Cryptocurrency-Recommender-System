@@ -3,21 +3,19 @@
     <head>
         <meta charset="utf-8">
         <title>PIER</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" >
         <link href="css/index.css" rel="stylesheet">
         <script>
             function preSubmit(haveAddress){
                 if (haveAddress) {
                     document.getElementById("have").value = "true";
-                    document.cookie = "address=" + document.getElementById("address").value;
                 }
                 else {
                     document.getElementById("have").value = "false";
-                    document.cookie = "address=none";
                 }
                 let uid = Math.random().toString(16);
+                localStorage.setItem("uid", uid);
                 document.getElementById("uid").value = uid;
-                document.cookie = "id=" + uid;
                 return true;
             }
         </script>
@@ -26,7 +24,7 @@
         <div class="outer">
         <div class="middle">
         <div class="inner">
-            <form id="f1" action="survey.ejs" method="POST" >
+            <form id="f1" action="survey" method="POST" >
                 <h1>Welcome to Personalized Ethereum Token Recommender</h1>
                 <div class="mb-3">
                     <label class="form-label lead">Please Enter Your Ethereum Wallet Address</label>
@@ -40,8 +38,5 @@
         </div>
         </div>
         </div>
-
-        
-        
     </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>PIER</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link href="css/error.css" rel="stylesheet">
+        <script>
+            window.onload = () => {document.getElementById("uid").value = localStorage.getItem("uid")}
+        </script>
+    </head>
+    <body>
+        <div class="outer">
+        <div class="middle">
+        <div class="inner">
+            <form action="result" method="POST">
+                <div id="msg">
+                    <img id="alert-img" src="img/alert.png">
+                    {{message}} Do you want to recommend using survey results only?
+                </div>
+                <div id="btn">
+                    <a href="/"><button type="button" class="btn btn-secondary">Enter Address Again</button></a>
+                    <button type="submit" class="btn btn-primary">Use Survey Results</button>
+                </div>
+                <input type="hidden" name="id" id="uid">
+                <input type="hidden" name="surveyOnly">
+            </form>
+        </div>
+        </div>
+        </div> 
+    </body>
+</html>

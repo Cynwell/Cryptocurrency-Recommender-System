@@ -1,0 +1,52 @@
+.outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url("../img/background.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+  
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1080px;
+    height: 220px;
+    background-color: rgba(208, 208, 208, 0.8);
+    border-radius: 15px;
+}
+
+#btn {
+    margin: 0;
+    position: absolute;
+    left: 40%;
+}
+
+#f1 {
+    position: relative;
+    top: 12px;
+    left: 18px;
+    width: 96%;
+}
+
+#msg {
+    text-align: center;
+    font-weight: 500;
+    font-size: x-large;
+    height: 160px;
+    line-height: 160px;
+}
+
+#alert-img {
+    height: 100px;
+    width: 100px;
+}
