@@ -1,0 +1,104 @@
+Name,Symbol,Description,Address,CoinGeckoID,Image
+Tether,USDT,Tether gives you the joint benefits of open blockchain technology and traditional currency by converting your cash into a stable digital currency equivalent.,0xdac17f958d2ee523a2206206994597c13d831ec7,tether,tether_32.png
+Chainlink,LINK,"A blockchain-based middleware, acting as a bridge between cryptocurrency smart contracts, data feeds, APIs and traditional bank account payments.",0x514910771af9ca656af840dff83e8264ecf986ca,chainlink,chainlink_28_2.png
+Binance Coin,BNB,"Binance aims to build a world-class crypto exchange, powering the future
+of crypto finance.",0xB8c77482e45F1F44dE1745F52C74426C631bDD52,binancecoin,bnb_28_2.png
+USD Coin,USDC,"USDC is a fully collateralized US Dollar stablecoin developed by CENTRE, the open source project with Circle being the first of several forthcoming issuers.",0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48,usd-coin,centre-usdc_28.png
+Wrapped Bitcoin,WBTC,"Wrapped Bitcoin (WBTC) is an ERC20 token backed 1:1 with Bitcoin.
+Completely transparent. 100% verifiable. Community led.",0x2260fac5e5542a773aa44fbcfedf7c193bc2c599,wrapped-bitcoin,wbtc_28.png
+VeChain,VET,Aims to connect blockchain technology to the real world by as well as advanced IoT integration.,0xd850942ef8811f2a866692a623011bde52a462c1,vechain,vechain_28.png
+Synthetix Network Token,SNX,"The Synthetix Network Token (SNX) is the native token of Synthetix, a synthetic asset (Synth) issuance protocol built on Ethereum. The SNX token is used as collateral to issue Synths, ERC-20 tokens that track the price of assets like Gold, Silver, Oil and Bitcoin.",0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f,havven,SynthetixSNX_32.png
+Theta Network,THETA,A decentralized peer-to-peer network that aims to offer improved video delivery at lower costs.,0x3883f5e181fccaf8410fa61e12b59bad963fb645,theta-token,theta_28.png
+Uniswap,UNI,"UNI token served as governance token for Uniswap protocol with 1 billion UNI have been minted at genesis. 60% of the UNI genesis supply is allocated to Uniswap community members and remaining for team, investors and advisors.",0x1f9840a85d5af5bf1d1762f925bdaddc4201f984,uniswap,uniswap_32.png
+Celsius Network,CEL,"A new way to earn, borrow, and pay on the blockchain.!",0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d,celsius-degree-token,celsiustoken1_28.png
+Crypto.com Coin,CRO,"Pay and be paid in crypto anywhere, with any crypto, for free.",0xa0b73e1ff0b80914ab6fe0444e65848c4c34450b,crypto-com-chain,cro_32.png
+OKB,OKB,Digital Asset Exchange,0x75231f58b43240c9718dd58b4967c5114342a86c,okb,okex_28.png
+Dai,DAI,"Multi-Collateral Dai, brings a lot of new and exciting features, such as support for new CDP collateral types and Dai Savings Rate.",0x6b175474e89094c44da98b954eedeac495271d0f,dai,MCDDai_32.png
+LEO Token,LEO,A utility token designed to empower the Bitfinex community and provide utility for those seeking to maximize the output and capabilities of the Bitfinex trading platform.,0x2af5d2ad76741191d15dfe7bf6ac92d4bd912ca3,leo-token,leo_28_2.png
+cETH,cETH,"Compound is an open-source protocol for algorithmic, efficient Money Markets on the Ethereum blockchain.",0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5,compound-ether,compound-eth_28.png
+Binance USD,BUSD,"Binance USD (BUSD) is a dollar-backed stablecoin issued and custodied by Paxos Trust Company, and regulated by the New York State Department of Financial Services. BUSD is available directly for sale 1:1 with USD on Paxos.com and will be listed for trading on Binance.",0x4fabb145d64652a948d72533023f6e7a623c7c53,binance-usd,binanceusd_32.png
+Maker,MKR,Maker is a Decentralized Autonomous Organization that creates and insures the dai stablecoin on the Ethereum blockchain,0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2,maker,mkr-etherscan-35.png
+Huobi Token,HT,Huobi Global is a world-leading cryptocurrency financial services group.,0x6f259637dcd74c767781e37bc6133cd6a68aa161,huobi-token,huobi_28.png
+cUSDC,cUSDC,"Compound is an open-source protocol for algorithmic, efficient Money Markets on the Ethereum blockchain.",0x39aa39c021dfbae8fac545936693ac917d5e7563,compound-usd-coin,compound-usdc_28.png
+yearn.finance,YFI,DeFi made simple.,0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e,yearn-finance,yfi_32.png
+cDAI,cDAI,"Compound is an open-source, autonomous protocol built for developers, to unlock a universe of new financial applications. Interest and borrowing, for the open financial system.",0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643,cdai,compounddai_32.png
+Sushi,SUSHI,,0x6b3595068778dd592e39a122f4f5a5cf09c90fe2,sushi,sushiswap_32.png
+Compound,COMP,Compound governance token,0xc00e94cb662c3520282e6f5717214004a7f26888,compound-governance-token,comp_32.png
+Zilliqa,ZIL,Zilliqa is a high-throughput public blockchain platform - designed to scale to thousands ​of transactions per second.,0x05f4a42e251f2d52b8ed15e9fedaacfcef1fad27,zilliqa,zilliqa_28_2.png
+UMA,UMA,UMA is a decentralized financial contracts platform built to enable Universal Market Access.,0x04Fa0d235C4abf4BcF4787aF4CF447DE572eF828,uma,umavotingtokenv1_32.png
+Huobi BTC,HBTC,"HBTC is a standard ERC20 token backed by 100% BTC. While maintaining the equivalent value of Bitcoin, it also has the flexibility of Ethereum. A bridge between the centralized market and the DeFi market.",0x0316EB71485b0Ab14103307bf65a021042c6d380,huobi-btc,huobibtc_32.png
+The Graph,GRT,The Graph is an indexing protocol and global API for organizing blockchain data and making it easily accessible with GraphQL.,0xc944e90c64b2c07662a292be6244bdf05cda44a7,the-graph,TheGraph_32.png
+Paxos Standard,PAX,"Paxos Standard is regulated crypto asset fully collateralized 1:1 by the U.S. dollar, approved and regulated by the NYDFS.",0x8e870d67f660d95d5be530380d0ec0bd388289e1,paxos-standard,paxos_28_2.png
+Loopring,LRC,"Loopring is a DEX protocol offering orderbook-based trading infrastructure, zero-knowledge proof and an auction protocol called Oedax (Open-Ended Dutch Auction Exchange).",0xbbbbca6a901c926f240b89eacb641d8aec7aeafd,loopring,lrc_32.png
+OMG Network,OMG,OmiseGO (OMG) is a public Ethereum-based financial technology for use in mainstream digital wallets,0xd26114cd6EE289AccF82350c8d8487fedB8A0C07,omisego,OMGNetwork_32.png
+Basic Attention Token,BAT,The Basic Attention Token is the new token for the digital advertising industry.,0x0d8775f648430679a709e98d2b0cb6250d2887ef,basic-attention-token,bat.png
+TrueUSD,TUSD,"A regulated, exchange-independent stablecoin backed 1-for-1 with US Dollars.",0x0000000000085d4780B73119b644AE5ecd22b376,true-usd,trueusd_32.png
+0x,ZRX,"0x is an open, permissionless protocol allowing for tokens to be traded on the Ethereum blockchain.",0xe41d2489571d322189246dafa5ebde1f4699f498,0x,zrx_28.png
+NEXO,NEXO,Instant Crypto-backed Loans,0xb62132e35a6c13ee1ee0f84dc5d40bad8d815206,nexo,nexo_32.png
+Enjin Coin,ENJ,Customizable cryptocurrency and virtual goods platform for gaming.,0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c,enjincoin,enjin_28_2.png
+HUSD,HUSD,"HUSD is an ERC-20 token that is 1:1 ratio pegged with USD. It was issued by Stable Universal, an entity that follows US regulations.",0xdf574c24545e5ffecb9a659c229253d4111d87e1,husd,husd_32.png
+Nexus Mutual,NXM,Nexus Mutual uses the power of Ethereum so people can share risks together without the need for an insurance company.,0xd7c49cee7e9188cca6ad8ff264c1da2e69d4cf3b,nxm,nxm_32.png
+IOST,IOST,A Secure & Scalable Blockchain for Smart Services,0xfa1a856cfa3409cfa145fa4e20eb270df3eb21ab,iostoken,iost_28.png
+SwissBorg,CHSB,Crypto Wealth Management.,0xba9d4199fab4f26efe3551d490e3821486f135ba,swissborg,swissborg_28_3.png
+Quant,QNT,Blockchain operating system that connects the world’s networks and facilitates the development of multi-chain applications.,0x4a220e6096b25eadb88358cb44068a3248254675,quant-network,quantnetwork_28_2.png
+Energy Web Token,EWT,"Energy Web Token (EWT) is the native token of the Energy Web Chain, a public, Proof-of-Authority Ethereum Virtual Machine blockchain specifically designed to support enterprise-grade applications in the energy sector.",0x178c820f862b14f316509ec36b13123da19a6054,energy-web-token,energywebtokenbridged_32.png
+Voyager Token,VGX,People-powered cryptocurrency services for the blockchain,0x5af2be193a6abca9c8817001f45744777db30756,ethos,ethos_32.png
+TerraUSD,UST,"The Terra blockchain is secured through distributed consensus over native staked asset Luna, and supports the issuance of price-tracking stablecoins (TerraKRW, TerraUSD, etc.) that are pegged to major world currencies.",0xa47c8bf37f92abed4a126bda807a7b7498661acd,terrausd,terra-ust_32.png
+Balancer,BAL,"Balancer is a n-dimensional automated market-maker that allows anyone to create or add liquidity to customizable pools and earn trading fees. Instead of the traditional constant product AMM model, Balancer’s formula is a generalization that allows any number of tokens in any weights or trading fees.",0xba100000625a3754423978a60c9317c58a424e3d,balancer,Balancer_32.png
+Ocean Protocol,OCEAN,"Ocean Protocol helps developers build Web3 apps to publish, exchange and consume data.",0x967da4048cD07aB37855c090aAF366e4ce1b9F48,ocean-protocol,oceantoken_28.png
+Decentraland,MANA,The Wrapped MANA token is not transferable and has to be unwrapped 1:1 back to MANA to transfer it. This token is also not burnable or mintable (except by wrapping more tokens).,0xfd09cf7cfffa9932e33668311c4777cb9db3c9be,decentraland,empty-token.png
+Band Protocol,BAND,"A data governance framework for Web3.0 applications operating as an open-source standard for the decentralized management of data. Band Protocol connects smart contracts with trusted off-chain information, provided through community-curated oracle data providers.",0xba11d00c5f74255f56a5e366f4f77f5a186d7f55,band-protocol,bandtoken_32.png
+Status,SNT,Status is an open source messaging platform and mobile browser to interact with decentralized applications that run on the Ethereum Network.,0x744d70fdbe2ba4cf95131626614a1763df805b9e,status,status.png
+1inch,1INCH,1inch is a decentralized exchange aggregator that sources liquidity from various exchanges and is capable of splitting a single trade transaction across multiple DEXs. Smart contract technology empowers this aggregator enabling users to optimize and customize their trades.,0x111111111117dc0aa78b770fa6a738034120c302,1inch,1inch_32.png
+Bancor Network Token,BNT,Bancor is an on-chain liquidity protocol that enables constant convertibility between tokens. Conversions using Bancor are executed against on-chain liquidity pools using automated market makers to price and process transactions without order books or counterparties.,0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c,bancor,bancor_32.png
+cUSDT,cUSDT,"Compound is an open-source protocol for algorithmic, efficient Money Markets on the Ethereum blockchain.",0xf650c3d88d12db855b8bf7d11be6c55a4e07dcc9,compound-usdt,compoundcUSDT_32.png
+Gnosis,GNO,Crowd Sourced Wisdom - The next generation blockchain network. Speculate on anything with an easy-to-use prediction market,0x6810e776880c02933d47db1b9fc05908e5386b96,gnosis,gnosans_32.png
+PARSIQ,PRQ,A Blockchain monitoring and compliance platform.,0x362bc847A3a9637d3af6624EeC853618a43ed7D2,parsiq,parsiqtoken_32.png
+sUSD,sUSD,A synthetic asset issued by the Synthetix protocol which tracks the price of the United States Dollar (USD). sUSD can be traded on Synthetix.Exchange for other synthetic assets through a peer-to-contract system with no slippage.,0x57ab1ec28d129707052df4df418d58a2d46d5f51,nusd,SynthetixsUSD_32.png
+Numeraire,NMR,NMR is the scarcity token at the core of the Erasure Protocol. NMR cannot be minted and its core use is for staking and burning. The Erasure Protocol brings negative incentives to any website on the internet by providing users with economic skin in the game and punishing bad actors.,0x1776e1f26f98b1a5df9cd347953a26dd3cb46671,numeraire,numeraire_28_2.png
+Aave [OLD],LEND,"Aave is an Open Source and Non-Custodial protocol to earn interest on deposits & borrow assets. It also features access to highly innovative flash loans, which let developers borrow instantly and easily; no collateral needed. With 16 different assets, 5 of which are stablecoins.",0x80fB784B7eD66730e8b1DBd9820aFD29931aab03,ethlend,ethlend_28.png
+Aragon,ANT,Create and manage unstoppable organizations. Aragon lets you manage entire organizations using the blockchain. This makes Aragon organizations more efficient than their traditional counterparties.,0xa117000000f279d81a1d3cc75430faa017fa5a2e,aragon,aragonnetworktoken_32.png
+Golem,GLM,Golem is going to create the first decentralized global market for computing power,0x7DD9c5Cba05E151C895FDe1CF355C9A1D5DA6429,golem,golem-glm_32.png
+Holo,HOT,"Holo is a decentralized hosting platform based on Holochain, designed to be a scalable development framework for distributed applications.",0x6c6ee5e31d828de241282b9606c8e98ea48526e2,holotoken,holo_28.png
+PAX Gold,PAXG,"PAX Gold (PAXG) tokens each represent one fine troy ounce of an LBMA-certified, London Good Delivery physical gold bar, secured in Brink’s vaults.",0x45804880De22913dAFE09f4980848ECE6EcbAf78,pax-gold,paxosgold_32.png
+Chiliz,CHZ,"Chiliz is the sports and fan engagement blockchain platform, that signed leading sports teams.",0x3506424f91fd33084466f402d5d97f05f8e3b4af,chiliz,chiliz_28.png
+Bytom,BTM,Transfer assets from atomic world to byteworld,0xcb97e65f07da24d46bcdd078ebebd7c6e6e3d750,bytom,bytom_28.png
+FunFair,FUN,FunFair is a decentralised gaming platform powered by Ethereum smart contracts,0x419d0d8bdd9af5e606ae2232ed285aff190e711b,funfair,FunFair.png
+Livepeer,LPT,A decentralized video streaming protocol that empowers developers to build video enabled applications backed by a competitive market of economically incentivized service providers.,0x58b6a8a3302369daec383334672404ee733ab239,livepeer,livepeer_28.png
+cUNI,cUNI,,0x35A18000230DA775CAc24873d00Ff85BccdeD550,compound-uniswap,compoundcUNI_32.png
+Keep Network,KEEP,A keep is an off-chain container for private data.,0x85eee30c52b0b379b046fb0f85f4f3dc3009afec,keep-network,keepnetwork_32.png
+KuCoin Token,KCS,"KCS performs as the key to the entire KuCoin ecosystem, and it will also be the native asset on KuCoin’s decentralized financial services as well as the governance token of KuCoin Community.",0xf34960d9d60be18cc1d5afc1a6f012a723a28811,kucoin-shares,kucointoken_32.png
+Wrapped NXM,wNXM,Blockchain based solutions for smart contract cover.,0x0d438f3b5175bebc262bf23753c1e53d03432bde,wrapped-nxm,nxm_32.png
+iExec RLC,RLC,Blockchain Based distributed cloud computing,0x607F4C5BB672230e8672085532f7e901544a7375,iexec-rlc,iexec_28.png
+Serum,SRM,"Serum is a decentralized derivatives exchange with trustless cross-chain trading by Project Serum, in collaboration with a consortium of crypto trading and DeFi experts.",0x476c5E26a75bd202a9683ffD34359C0CC15be0fF,serum,serum_32.png
+Unibright,UBT,The unified framework for blockchain based business integration,0x8400d94a5cb0fa0d041a3788e395285d61c9ee5e,unibright,unibright_28.png
+XinFin,XDC,Hybrid Blockchain technology company focused on international trade and finance.,0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2,xdce-crowd-sale,xinfin_28.png
+Pundi X,NPXS,To provide developers increased use cases and token user base by supporting offline and online payment of their custom tokens in Pundi X‘s ecosystem,0xa15c7ebe1f07caf6bff097d8a589fb8ac49ae5b3,pundi-x,pundix-28.png
+SAND,SAND,"The Sandbox is a virtual world where players can build, own, and monetize their gaming experiences in the Ethereum blockchain using SAND, the platform’s utility token.",0x3845badAde8e6dFF049820680d1F14bD3903a5d0,the-sandbox,sand_32.png
+Polymath Network,POLY,Polymath aims to enable securities to migrate to the blockchain.,0x9992ec3cf6a55b00978cddf2b27bc6882d88d1ec,polymath-network,polymath_28.png
+Fantom,FTM,DAG based smart contract platform that solves the issue of scalability and confirmation time of the existing blockchain technology.,0x4e15361fd6b4bb609fa63c81a2be19d873717870,fantom,fantom_28.png
+c0x,cZRX,"Compound is an open-source protocol for algorithmic, efficient Money Markets on the Ethereum blockchain.",0xb3319f5d18bc0d84dd1b4825dcde5d5f7266d407,compound-0x,compound-zrx_28.png
+Swipe,SXP,Swipe is a cryptocurrency wallet and debit card that enables users to spend their cryptocurrencies over the world.,0x8ce9137d39326ad0cd6491fb5cc0cba0e089b6a9,swipe,swipe_32.png
+WAX,WAXP,Global Decentralized Marketplace for Virtual Assets.,0x39bb259f66e1c59d5abef88375979b4d20d98022,wax,wax.png
+SingularityNET,AGI,Decentralized Marketplace for AI.,0x8eb24319393716668d768dcec29356ae9cffe285,singularitynet,singularitynet_28.png
+Kleros,PNK,"Kleros provides fast, secure and affordable arbitration for virtually everything.",0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d,kleros,kelros_28.png
+Harmony,ONE,A project to scale trust for billions of people and create a radically fair economy.,0x799a4202c12ca952cb311598a024c80ed371a41e,harmony,harmonyone_32.png
+elf,ELF,"elf is a decentralized self-evolving cloud computing blockchain
+network that aims to provide a high performance platform for commercial adoption of blockchain.",0xbf2179859fc6d5bee9bf9158632dc51678a4100e,aelf,aelf_28.png
+xDAI Stake,STAKE,STAKE is a new ERC20 token designed to secure the on-chain payment layer and provide a mechanism for validators to receive incentives.,0x0Ae055097C6d159879521C384F1D2123D1f195e6,xdai-stake,stake_32.png
+tBTC,TBTC,,0x8dAEBADE922dF735c38C80C7eBD708Af50815fAa,tbtc,tbtc_32.png
+Gemini Dollar,GUSD,Gemini dollar combines the creditworthiness and price stability of the U.S. dollar with blockchain technology and the oversight of U.S. regulators.,0x056fd409e1d7a124bd7017459dfea2f387b6d5cd,gemini-dollar,gemini_28.png
+Fetch.ai,FET,"Fetch.ai is building tools and infrastructure to enable a decentralized digital economy by combining AI, multi-agent systems and advanced cryptography.",0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85,fetch-ai,fetch_32.png
+IoTeX,IOTX,"IoTeX is the next generation of the IoT-oriented blockchain platform with vast scalability, privacy, isolatability, and developability. IoTeX connects the physical world, block by block.",0x6fb3e0a217407efff7ca062d46c26e5d60a14d69,iotex,iotex_28.png
+Storj,STORJ,"Blockchain-based, end-to-end encrypted, distributed object storage, where only you have access to your data",0xb64ef51c888972c908cfacf59b47c1afbc0ab8ac,storj,storj_32.png
+Melon,MLN,Melon is an Ethereum-based protocol for decentralized on-chain asset management.,0xec67005c4e498ec7f55e092bd1d35cbc47c91892,melon,melontoken_32.png
+Rocket Pool,RPL,Rocket Pool is a decentralised Ethereum Proof of Stake pool designed to be compatible with Casper.,0xb4efd85c19999d84251304bda99e90b92300bd93,rocket-pool,Rocketpool_32.png
+Bitmax Token,BTMX,Digital asset trading platform,0xcca0c9c383076649604eE31b20248BC04FdF61cA,bmax,bitmax_28.png
+Divi,DIVI,Digital Currency,0x13f11c9905a08ca76e3e853be63d4f0944326c72,divi,diviproject_28.png
+OriginTrail,TRAC,Purpose-built Protocol for Supply Chains Based on Blockchain.,0xaa7a9ca87d3694b5755f213b5d04094b8d0f0a6f,origintrail,origintrail_28.png
+Power Ledger,POWR,Power Ledger is a peer-to-peer marketplace for renewable energy.,0x595832f8fc6bf59c85c527fec3740a1b7a361269,power-ledger,powerledger_28_2.png
+Tokenlon,LON,Tokenlon is a decentralized exchange and payment settlement protocol.,0x0000000000095413afc295d19edeb1ad7b71c952,tokenlon,lon_32.png
+CRYPTO20,C20,Tokenized Crypto Index Fund.,0x26e75307fc0c021472feb8f727839531f112f317,crypto20,crypto20_28.png
+Aion,AION,"A multi-tier blockchain system designed to address unsolved questions of scalability, privacy, and interoperability in blockchain networks",0x4CEdA7906a5Ed2179785Cd3A40A69ee8bc99C466,aion,aion-network_28.png
+Uquid Coin,UQC,"The goal of this blockchain asset is to supplement the development of UQUID Ecosystem. In this virtual revolution, coin holders will have the benefit of instantly and effortlessly cash out their coins.",0x8806926Ab68EB5a7b909DcAf6FdBe5d93271D6e2,uquid-coin,uquid_28.png
+Tellor,TRB,Tellor is a decentralized oracle that provides an on-chain data bank where staked miners compete to add the data points.,0x0ba45a8b5d5575935b8158a88c631e9f9c95a2e5,tellor,tellortributes_32.png

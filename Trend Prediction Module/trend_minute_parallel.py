@@ -8,24 +8,28 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import cross_val_score
+from joblib import Parallel, delayed
 
-from price_crawler import update_token, build_features
+from price_crawler_minute import retrieve_data, build_features
 
 
 # [<Prediction Interval>-<Feature Name>]
 TARGET = ['1D-close', '3D-close', '7D-close']
 
+# Number of trials
+TRIAL = 10
+
 # TA features to be used
 TA_FEATURES = ['ROC', 'MOM', 'EMA', 'SMA', 'VAR', 'MACD', 'ADX', 'RSI']
 
-ROLL_RANGE = [1, 3, 5]                          # How many previous periods to be considered
-DELTA_RANGE = ['24H', '12H', '6H', '3H']        # Possible duration of each period
-MODEL_RANGE = [DecisionTreeClassifier, LogisticRegression, MLPClassifier]     # Possible Models
-NORMALIZE = ['MinMax', 'Normal', 'None']        # Possible data normalization method
+ROLL_RANGE = [1, 2, 4, 8]                             # How many previous periods to be considered
+DELTA_RANGE = ['12H', '6H', '3H', '1H', '30min']      # Possible duration of each period
+MODEL_RANGE = [DecisionTreeClassifier]                # Possible Models
+NORMALIZE = ['MinMax', 'Normal', 'None']              # Possible data normalization method
 
 CRITERION_RANGE = ['gini', 'entropy']   # Possible way to construct a decision tree
 DEPTH_RANGE = [3, 4, 5, 6, 7, 8]        # Possible tree depth when using decision trees
-HIDDEN_RANGE = [8, 16, 24, 32, 48]      # Possible hidden size when using MLP
+HIDDEN_RANGE = [8, 16, 24, 32, 48]      # Possible hidden size when using MLP    # [<Prediction Interval>-<Feature Name>]
 
 
 def generate_config():
@@ -61,14 +65,11 @@ def to_csv_line(cfg, target, result):
     return line
 
 
-def train(address, cfg, target):
+def generate_config_and_train(token, i):
+    cfg, target, features = generate_config()
 
-    '''
-    Input(address <str>, configuration <dict>, target <dict>, log <file>) -> list
-    This function gives a list of trained model for each time horizon using the configuration above
-    '''
-
-    X, y = build_features(address, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
+    df = retrieve_data(token)
+    X, y = build_features(df, freq=cfg['delta'], ta_list=TA_FEATURES, ys=target, roll=cfg['roll'])
     model = cfg['model']
     output_models = []
     results = []
@@ -95,31 +96,21 @@ def train(address, cfg, target):
         result = to_csv_line(cfg, label, result)
         output_models.append(m)
         results.append(result)
-    
+
     return output_models, results
 
 
 if __name__ == '__main__':
-    # Number of trials
-    TRIAL = 10
-
-    address = '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2'
-    update_token(address)
-    csv_lines = []
-    file_name = address + '_tuning.csv'
-    if path.exists('tuning_logs/' + file_name):
-        log = open('tuning_logs/' + file_name, 'a')
+    token = 'leousd.csv'
+    file_dir = 'tuning_logs/' + token + '_tuning.csv'
+    if path.exists(file_dir):
+        log = open(file_dir, 'a')
     else:
-        log = open('tuning_logs/' + file_name, 'w')
+        log = open(file_dir, 'w')
         log.write('TARGET, MODEL, DELTA, ROLL, NORM, HIDDEN, DEPTH, CRITERION, SCORE, STD\n')
-    try:
-        for i in range(TRIAL):
-            cfg, target, features = generate_config()
-            models, lines = train(address, cfg, target)
-            csv_lines += lines
-            print(i + 1, 'trials completed')
-        log.writelines(csv_lines)
-        log.close()
-    except KeyboardInterrupt:
-        log.writelines(csv_lines)
-        log.close()
+    outputs = Parallel(n_jobs=4)(delayed(generate_config_and_train)(token, i) for i in range(TRIAL))
+    csv_lines = []
+    for models, results in outputs:
+        csv_lines += results
+    log.writelines(csv_lines)
+    log.close()

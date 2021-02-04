@@ -67,6 +67,9 @@ def update_token(address, start_date=datetime(2019, 1, 1)):
         with open(file_dir, 'rb') as f:
             data, update_time = pkl.load(f)
             data = [data]
+            if now - update_time < timedelta(hours=6):
+                print(f'{address} Cached')
+                return
         start = update_time
         end = update_time + timedelta(days=80)
     else:
@@ -80,11 +83,12 @@ def update_token(address, start_date=datetime(2019, 1, 1)):
         data.append(get_data(address, st, et)) # Require time to be in timestamp format
         start = start + timedelta(days=80)
         end = end + timedelta(days=80)
-        sleep(0.5)                             # To avoid getting blocked
+        sleep(1)                             # To avoid getting blocked
     st = datetime.timestamp(start)
     et = datetime.timestamp(now)
     data.append(get_data(address, st, et))
     df = pd.concat(data, ignore_index=True)
+    print(f'{address} crawled with {len(df)} timestamps')
     with open(file_dir, 'wb') as f:
         pkl.dump((df, now), f)                 # Save tuple (DataFrame, Update_Time) to pkl
 
