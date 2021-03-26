@@ -37,6 +37,10 @@
     display: inline;
 }
 
+#rec-list {
+    font-size: 1.3em;
+}
+
 #description {
     vertical-align: top;
     overflow: auto;

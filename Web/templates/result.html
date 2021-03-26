@@ -38,6 +38,7 @@
                         let rec = document.createElement('option');
                         if (i == 0) rec.setAttribute('selected', '');
                         rec.setAttribute('id', code);
+                        rec.style = "font-weight: 500";
                         rec.innerHTML = recommendation[code];
                         rec.addEventListener('click', () => {render(code)})
                         list.appendChild(rec);
@@ -53,7 +54,7 @@
         <div class="inner">
             <h2>Here are our Recommendations</h2>
             <div class="mb-3">
-                <select id="rec-list" class="form-select form-select-lg chooseBox" multiple>
+                <select id="rec-list" class="form-select form-select chooseBox" multiple >
                 </select>
                 <span id="description">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.

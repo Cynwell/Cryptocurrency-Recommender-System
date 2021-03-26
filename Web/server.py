@@ -6,9 +6,9 @@ import pandas as pd
 from flask import Flask, render_template, request
 from recommender_module.recommend import recommend
 
+# Load user transaction data 
 with open('data/user_array.pkl', 'rb') as usr:
     USER_ARRAY = pk.load(usr)
-
 
 TOKENS = pd.read_csv('data/tokens.csv')
 TOKENS['Address'] = TOKENS['Address'].str.lower()
@@ -35,7 +35,7 @@ def survey():
     if request.form['haveAddress'] == 'true':
         address = request.form['address']
         uid = request.form['id']
-        worker = Thread(target=recommend, args=[uid, address, PROFILES, USER_ARRAY, TOKENS.index])
+        worker = Thread(target=recommend, args=[uid, address, PROFILES, USER_ARRAY, TOKENS])
         WORKERS[uid] = worker
         worker.start()
         greet = 'We got your Address. Lets see your Investment Preference'
@@ -55,13 +55,14 @@ def result():
         profile = PROFILES[uid]
         if profile.status != 'Ok':
             return render_template('error.html', message=profile.status)
-        tokens, scores = profile.user_knn_results
-        for c, t in zip(code, tokens):
+        tokens = profile.user_knn_results
+        predictions = profile.predict_results
+        for c, t, i in zip(code, tokens, range(5)):
             output[c] = TOKENS.loc[t, 'Name']
             output[c + '-des'] = TOKENS.loc[t, 'Description']
-            output[c + '-1d'] = 'Up'
-            output[c + '-3d'] = 'Down'
-            output[c + '-7d'] = 'Up'
+            output[c + '-1d'] = 'Up' if predictions[i][0] > 0 else 'Down'
+            output[c + '-3d'] = 'Up' if predictions[i][1] > 0 else 'Down'
+            output[c + '-7d'] = 'Up' if predictions[i][2] > 0 else 'Down'
     else:
         output['r1'] = 'Maker'
         output['r1-des'] = 'Maker is a very popular coin'
